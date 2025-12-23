@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel – Movara</title>
+<style>
+body{font-family:Segoe UI;background:#0f172a;color:#fff;padding:20px}
+.card{background:#1e293b;padding:20px;border-radius:16px;max-width:420px;margin:auto}
+input,textarea,button{
+  width:100%;padding:12px;border-radius:10px;border:none;margin-top:10px
+}
+button{background:#1e88e5;color:#fff;font-weight:bold}
+button.danger{background:#e53935}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="login">
+  <h3>🔐 Admin Login</h3>
+  <input id="pin" placeholder="PIN">
+  <button onclick="login()">Masuk</button>
+</div>
+
+<div class="card hidden" id="panel">
+  <h3>⚙️ Admin Panel</h3>
+
+  <textarea id="popupText" placeholder="Teks popup"></textarea>
+  <button onclick="savePopup()">💾 Simpan Popup</button>
+
+  <hr style="margin:20px 0">
+
+  <input id="promoCode" placeholder="Kode Promo">
+  <input id="promoValue" type="number" placeholder="Potongan (Rp)">
+  <button onclick="savePromo()">🎁 Simpan Promo</button>
+</div>
+
+<script>
+const PIN="51183$*";
+
+function login(){
+  if(pin.value===PIN){
+    login.classList.add("hidden");
+    panel.classList.remove("hidden");
+    popupText.value=localStorage.getItem("movara_popup_text")||"";
+  }else alert("PIN salah");
+}
+
+function savePopup(){
+  localStorage.setItem("movara_popup_text",popupText.value);
+  localStorage.setItem("movara_popup_version",Date.now());
+  alert("Popup diperbarui");
+}
+
+function savePromo(){
+  localStorage.setItem("movara_promo_code",promoCode.value.toUpperCase());
+  localStorage.setItem("movara_promo_value",promoValue.value);
+  alert("Promo disimpan");
+}
+</script>
+
+</body>
+</html>
