@@ -68,11 +68,170 @@ li{margin-bottom:6px;font-size:14px}
 .deskripsi-title{
   font-size:13px;font-weight:600;margin-bottom:6px;color:var(--accent)
 }
+
+/* Popup Tengah */
+.popup-area{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.popup-area.show{display:flex}
+.popup-box{
+  width:90%;
+  max-width:340px;
+  padding:24px;
+  border-radius:20px;
+  text-align:center;
+  animation:zoom .35s ease;
+  background:#ffffff;
+  color:#1f2d3d;
+}
+body.dark .popup-box{
+  background:#1e293b;
+  color:#ffffff;
+}
+.popup-box p{font-size:14px;color:#6b7280}
+body.dark .popup-box p{color:#cbd5e1}
+.popup-box small{display:block;margin-top:12px;font-size:12px;opacity:.7}
+@keyframes zoom{
+  from{transform:scale(.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+  
+  /* ===== TOMBOL CS TELEGRAM MINIMAL ===== */
+.chat-cs{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:9998;
+}
+
+.chat-cs a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:#229ED9;
+  box-shadow:0 10px 25px rgba(34,158,217,.45);
+  transition:.3s ease;
+  overflow:hidden;
+  text-decoration:none;
+}
+
+.chat-cs img{
+  width:26px;
+  height:26px;
+}
+
+.chat-cs span{
+  color:#fff;
+  font-weight:600;
+  font-size:14px;
+  margin-left:10px;
+  white-space:nowrap;
+  opacity:0;
+  transition:.25s;
+}
+
+/* saat hover / tap */
+.chat-cs a:hover{
+  width:190px;
+  border-radius:50px;
+  justify-content:flex-start;
+  padding-left:18px;
+}
+
+.chat-cs a:hover span{
+  opacity:1;
+}
+  
 </style>
 </head>
 
+<div class="chat-cs">
+  <a href="https://t.me/USERNAME_CS_MOVARA" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+    <span>Hubungi CS Kami</span>
+  </a>
+</div>
+
 <body>
 <div class="toggle" onclick="toggleMode()">🌙 / ☀️</div>
+
+<script>
+function toggleMode(){
+  document.body.classList.toggle("dark");
+}
+
+/* ===== POPUP CERDAS MOVARA ===== */
+function tampilkanPopupCerdas(){
+  const today = new Date().toISOString().slice(0,10);
+  const lastShown = localStorage.getItem("movara_popup_date");
+
+  // 1x per hari
+  if(lastShown === today) return;
+
+  const popup = document.getElementById("popupArea");
+  const text  = document.getElementById("popupText");
+
+  const pernahDatang = localStorage.getItem("movara_visited");
+  const jam = new Date().getHours();
+
+  // USER BARU → POPUP NETRAL
+  if(!pernahDatang){
+    text.innerHTML = `
+      Movara saat ini melayani<br>
+      <b>wilayah Cibinong & sekitarnya</b>.<br><br>
+      Order dari luar area akan dikonfirmasi admin 🙏
+    `;
+    localStorage.setItem("movara_visited","yes");
+  }
+
+  // USER LAMA → OPSI 1 (BERDASARKAN WAKTU)
+  else{
+    if(jam >= 5 && jam < 11){
+      text.innerHTML = `
+        Selamat pagi 👋<br><br>
+        Movara siap bantu antar, jemput, atau titip kebutuhan kamu hari ini.<br>
+        <b>Cibinong & sekitarnya</b>
+      `;
+    }
+    else if(jam >= 11 && jam < 17){
+      text.innerHTML = `
+        Lagi sibuk? Tenang 😄<br><br>
+        Movara siap bantu urusan kamu biar cepat beres.<br>
+        <b>Layanan lokal Cibinong</b>
+      `;
+    }
+    else{
+      text.innerHTML = `
+        Masih butuh bantuan malam ini? 🌙<br><br>
+        Selama aman & legal, Movara siap bantu.<br>
+        <b>Cibinong & sekitarnya</b>
+      `;
+    }
+  }
+
+  popup.classList.add("show");
+  localStorage.setItem("movara_popup_date", today);
+}
+
+function tutupPopup(){
+  document.getElementById("popupArea").classList.remove("show");
+}
+
+/* jalankan setelah halaman siap */
+window.addEventListener("load",()=>{
+  setTimeout(tampilkanPopupCerdas, 800);
+});
+</script>
+
 <div class="container">
 
 <!-- HEADER -->
@@ -101,8 +260,7 @@ li{margin-bottom:6px;font-size:14px}
 
   <div id="box-deskripsi" class="deskripsi-box">
     <div class="deskripsi-title">📝 Deskripsi Layanan</div>
-    <textarea id="deskripsi"
-      placeholder="Jelaskan kebutuhan Anda secara detail"></textarea>
+    <textarea id="deskripsi" placeholder="Ceritakan kebutuhan kamu secara singkat"></textarea>
   </div>
 
   <input id="lokasi" placeholder="Lokasi">
@@ -112,42 +270,66 @@ li{margin-bottom:6px;font-size:14px}
 
   <button onclick="kirimWA()">Kirim Order</button>
 </div>
+  
+  <p style="font-size:13px;color:var(--sub);margin-top:12px;text-align:center">
+  🕘 Jam Operasional: <b>08.00 – 18.00 WIB</b><br>
+  Order di luar jam akan dibalas saat jam operasional ya 🙏
+</p>
 
-<!-- INFO -->
+<!-- CARA ORDER -->
 <div class="card">
   <div class="section-title">Cara Order</div>
   <ul>
-    <li>Isi form order</li>
-    <li>Admin konfirmasi harga</li>
-    <li>Order diproses</li>
+    <li>Isi form order di website Movara</li>
+    <li>Admin akan menghubungi kamu via WhatsApp</li>
+    <li>Konfirmasi detail & estimasi harga</li>
+    <li>Kalau sudah oke, driver langsung jalan 🚀</li>
   </ul>
 </div>
 
+<!-- LAYANAN -->
 <div class="card">
   <div class="section-title">Layanan Movara</div>
   <ul>
-    <li>Antar Jemput</li>
-    <li>Beli Makanan</li>
-    <li>Antar Barang</li>
-    <li>Layanan Sesuai Permintaan (Aman & Legal)</li>
+    <li>🚕 Antar jemput orang</li>
+    <li>🍔 Beli & antar makanan</li>
+    <li>📦 Antar barang</li>
+    <li>🛠️ Layanan sesuai kebutuhan (aman & legal)</li>
   </ul>
 </div>
 
+<!-- ESTIMASI HARGA -->
 <div class="card">
   <div class="section-title">Estimasi Harga</div>
   <ul>
-    <li>Antar Jemput: mulai Rp10.000</li>
-    <li>Antar Barang: mulai Rp20.000</li>
-    <li>Beli Makanan: Rp10.000 + ongkir</li>
+    <li>Antar jemput: mulai Rp10.000</li>
+    <li>Beli makanan: mulai Rp15.000 + ongkir</li>
+    <li>Antar barang: mulai Rp20.000</li>
   </ul>
+  <p style="font-size:13px;color:var(--sub);margin-top:10px">
+    *Harga di atas hanya estimasi.  
+    Bisa lebih rendah atau lebih tinggi tergantung jarak, waktu, dan kondisi lapangan.*
+  </p>
 </div>
 
+  <div class="card">
+  <div class="section-title">Catatan Pembayaran</div>
+  <ul>
+    <li>💳 Untuk <b>Beli Makanan</b>, pembayaran dilakukan di awal</li>
+    <li>Metode pembayaran bisa transfer atau QRIS (sesuai kesepakatan)</li>
+    <li>Tujuannya agar order lebih aman & lancar 🙏</li>
+  </ul>
+</div>
+  
+<!-- SYARAT -->
 <div class="card">
   <div class="section-title">Syarat & Ketentuan</div>
   <ul>
-    <li>Khusus wilayah Cibinong & sekitarnya</li>
-    <li>Harga menyesuaikan jarak & kondisi</li>
-    <li>Layanan aman & sesuai hukum</li>
+    <li>Layanan tersedia untuk wilayah Cibinong & sekitarnya</li>
+    <li>Harga menyesuaikan jarak & kondisi order</li>
+    <li>Untuk beli makanan, pembayaran dilakukan di awal</li>
+    <li>Mohon pastikan order aman & tidak melanggar hukum</li>
+    <li>Admin berhak menolak order tertentu</li>
   </ul>
 </div>
 
@@ -158,130 +340,88 @@ li{margin-bottom:6px;font-size:14px}
 </div>
 
 <script>
-/* MODE */
 function toggleMode(){
   document.body.classList.toggle("dark");
 }
 
-/* FORM LOGIC */
 function updateEstimasi(){
-  const layanan = document.getElementById("layanan").value;
-  const estimasiEl = document.getElementById("estimasi");
-  const boxEl = document.getElementById("box-deskripsi");
-  const lokasiEl = document.getElementById("lokasi");
-  const tujuanEl = document.getElementById("tujuan");
-  const deskripsiEl = document.getElementById("deskripsi");
+  const layanan=document.getElementById("layanan").value;
+  const estimasi=document.getElementById("estimasi");
+  const box=document.getElementById("box-deskripsi");
+  const lokasi=document.getElementById("lokasi");
+  const tujuan=document.getElementById("tujuan");
 
-  estimasiEl.classList.remove("show");
-  boxEl.classList.remove("show");
-  tujuanEl.style.display = "block";
-  tujuanEl.value = "";
+  estimasi.classList.remove("show");
+  box.classList.remove("show");
+  tujuan.style.display="block";
 
-  let text = "";
+  let text="";
 
-  if(layanan === "Antar Jemput"){
-    lokasiEl.placeholder = "Lokasi Jemput";
-    tujuanEl.placeholder = "Tujuan";
-    text = "Estimasi: Rp10.000 – Rp50.000";
-    deskripsiEl.value = "";
+  if(layanan==="Antar Jemput"){
+    lokasi.placeholder="Lokasi Jemput";
+    tujuan.placeholder="Tujuan";
+    text="Estimasi: Rp10.000 – Rp50.000";
   }
-
-  if(layanan === "Beli Makanan"){
-    lokasiEl.placeholder = "Lokasi Resto";
-    tujuanEl.placeholder = "Alamat Tujuan";
-    text = "Estimasi: Rp15.000 + ongkir";
-    deskripsiEl.value = "";
+  if(layanan==="Beli Makanan"){
+    lokasi.placeholder="Lokasi Resto";
+    tujuan.placeholder="Alamat Tujuan";
+    text="Estimasi: Rp15.000 + ongkir";
   }
-
-  if(layanan === "Antar Barang"){
-    lokasiEl.placeholder = "Lokasi Jemput Barang";
-    tujuanEl.placeholder = "Alamat Tujuan";
-    text = "Estimasi: Rp20.000 – Rp150.000";
-    deskripsiEl.value = "";
+  if(layanan==="Antar Barang"){
+    lokasi.placeholder="Lokasi Jemput Barang";
+    tujuan.placeholder="Alamat Tujuan";
+    text="Estimasi: Rp20.000 – Rp150.000";
   }
-
-  if(layanan === "Layanan Sesuai Permintaan"){
-    lokasiEl.placeholder = "Lokasi";
-    tujuanEl.style.display = "none";
-    text = "Estimasi menyesuaikan kebutuhan";
-    boxEl.classList.add("show");
+  if(layanan==="Layanan Sesuai Permintaan"){
+    lokasi.placeholder="Lokasi";
+    tujuan.style.display="none";
+    text="Estimasi menyesuaikan kebutuhan";
+    box.classList.add("show");
   }
 
   if(text){
-    estimasiEl.innerText = text;
-    estimasiEl.classList.add("show");
+    estimasi.innerText=text;
+    estimasi.classList.add("show");
   }
 }
 
-/* KIRIM WA */
 function kirimWA(){
-  const nama = document.getElementById("nama").value.trim();
-  const layanan = document.getElementById("layanan").value;
-  const lokasi = document.getElementById("lokasi").value.trim();
-  const tujuan = document.getElementById("tujuan").value.trim();
-  const waktu = document.getElementById("waktu").value.trim();
-  const catatan = document.getElementById("catatan").value.trim();
-  const deskripsi = document.getElementById("deskripsi").value.trim();
+  const nama=document.getElementById("nama").value;
+  const layanan=document.getElementById("layanan").value;
+  const lokasi=document.getElementById("lokasi").value;
+  const tujuan=document.getElementById("tujuan").value;
+  const waktu=document.getElementById("waktu").value;
+  const catatan=document.getElementById("catatan").value;
+  const deskripsi=document.getElementById("deskripsi").value;
 
-  if(!nama){ alert("Nama wajib diisi"); return; }
-  if(!layanan){ alert("Pilih layanan"); return; }
-  if(!lokasi){ alert("Lokasi wajib diisi"); return; }
-  if(layanan !== "Layanan Sesuai Permintaan" && !tujuan){
-    alert("Tujuan wajib diisi"); return;
-  }
-  if(layanan === "Layanan Sesuai Permintaan" && !deskripsi){
-    alert("Mohon jelaskan kebutuhan Anda"); return;
+  if(!nama||!layanan||!lokasi){alert("Lengkapi data wajib dulu ya 😊");return;}
+  if(layanan!=="Layanan Sesuai Permintaan" && !tujuan){
+    alert("Tujuan masih kosong");return;
   }
 
-  const no = "6289526628983";
+  const msg=`🚀 ORDER BARU – MOVARA
 
-  const msg = `🚀 *ORDER BARU – MOVARA*
+Nama: ${nama}
+Layanan: ${layanan}
+Lokasi: ${lokasi}
+Tujuan: ${tujuan||"-"}
+Waktu: ${waktu||"-"}
+Deskripsi: ${deskripsi||"-"}
+Catatan: ${catatan||"-"}`;
 
-👤 Nama: ${nama}
-🛎️ Layanan: ${layanan}
-📍 Lokasi: ${lokasi}
-🎯 Tujuan: ${tujuan || "-"}
-⏰ Waktu: ${waktu || "-"}
-📝 Deskripsi: ${deskripsi || "-"}
-📌 Catatan: ${catatan || "-"}`;
-
-  window.location.href =
-    "https://wa.me/" + no + "?text=" + encodeURIComponent(msg);
+  window.location.href="https://wa.me/6289526628983?text="+encodeURIComponent(msg);
 }
 
-/* DETEKSI WILAYAH – PERINGATAN SAJA */
-const CIBINONG = { lat:-6.485, lon:106.842, radius:10 };
-
-function getDistance(a,b,c,d){
-  const R=6371;
-  const dLat=(c-a)*Math.PI/180;
-  const dLon=(d-b)*Math.PI/180;
-  const x=Math.sin(dLat/2)**2 +
-    Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*
-    Math.sin(dLon/2)**2;
-  return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
+function tampilkanPopup(){
+  document.getElementById("popupArea").classList.add("show");
+}
+function tutupPopup(){
+  document.getElementById("popupArea").classList.remove("show");
 }
 
-function cekWilayah(){
-  if(!navigator.geolocation) return;
-  navigator.geolocation.getCurrentPosition(pos=>{
-    const jarak=getDistance(
-      pos.coords.latitude,pos.coords.longitude,
-      CIBINONG.lat,CIBINONG.lon
-    );
-    if(jarak>CIBINONG.radius){
-      setTimeout(()=>{
-        alert(
-          "⚠️ Perhatian\n\n" +
-          "Movara memprioritaskan wilayah Cibinong & sekitarnya.\n" +
-          "Order dari luar area akan dikonfirmasi admin terlebih dahulu 🙏"
-        );
-      },800);
-    }
-  });
-}
-
-window.addEventListener("load",cekWilayah);
+window.addEventListener("load",()=>{
+  setTimeout(tampilkanPopup,700);
+});
 </script>
 
 </body>
