@@ -1,3 +1,22 @@
+<div class="card" id="login">
+  <h3>🔐 Admin Login</h3>
+  <input id="pin" placeholder="PIN">
+  <button onclick="login()">Masuk</button>
+</div>
+
+<div class="card hidden" id="panel">
+  <h3>⚙️ Admin Panel</h3>
+
+  <textarea id="popupText"></textarea>
+  <button onclick="savePopup()">💾 Simpan Popup</button>
+
+  <hr>
+
+  <input id="promoCode" placeholder="Kode Promo">
+  <input id="promoValue" type="number" placeholder="Potongan (Rp)">
+  <button onclick="savePromo()">🎁 Simpan Promo</button>
+</div>
+
 <script>
 const PIN_ADMIN = "51183$*"; // GANTI PIN KAMU
 
