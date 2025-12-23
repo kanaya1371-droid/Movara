@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movara – Gerak Cepat, Urusan Beres</title>
+
+<style>
+:root{
+  --bg:#f2f6f9; --card:#fff; --text:#1f2d3d; --sub:#6b7280;
+  --accent:#1e88e5; --accent2:#26c6da;
+}
+body.dark{
+  --bg:#0f172a; --card:#1e293b; --text:#fff; --sub:#cbd5e1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Segoe UI,Arial,sans-serif;
+  background:var(--bg);color:var(--text);transition:.3s
+}
+.container{max-width:480px;margin:auto;padding:20px}
+.card{
+  background:var(--card);border-radius:20px;padding:24px;
+  box-shadow:0 20px 45px rgba(0,0,0,.2);margin-bottom:20px
+}
+.center{text-align:center}
+.logo{width:80px;height:80px;border-radius:50%;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.badge{
+  display:inline-block;margin-top:6px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;padding:5px 14px;border-radius:20px;font-size:12px
+}
+input,select,textarea{
+  width:100%;padding:14px;margin-top:12px;
+  border-radius:12px;border:1px solid #cbd5e1;font-size:14px
+}
+textarea{resize:none;height:90px}
+button{
+  width:100%;margin-top:18px;padding:16px;
+  border:none;border-radius:16px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:16px;font-weight:bold;cursor:pointer
+}
+.section-title{font-weight:bold;margin-bottom:8px}
+ul{padding-left:18px;margin:0}
+li{margin-bottom:6px;font-size:14px}
+.footer{text-align:center;font-size:12px;color:var(--sub)}
+.toggle{position:fixed;top:15px;right:15px;cursor:pointer}
+
+/* Estimasi */
+.estimasi{
+  margin-top:10px;font-weight:bold;color:var(--accent);
+  opacity:0;transform:translateY(6px);transition:.3s
+}
+.estimasi.show{opacity:1;transform:translateY(0)}
+
+/* Deskripsi Level 2 */
+.deskripsi-box{
+  margin-top:12px;padding:14px;border-radius:14px;
+  background:rgba(30,136,229,.06);
+  border:1.5px dashed var(--accent);
+  opacity:0;transform:translateY(-6px);
+  max-height:0;overflow:hidden;transition:.35s
+}
+.deskripsi-box.show{
+  opacity:1;transform:translateY(0);max-height:220px
+}
+.deskripsi-title{
+  font-size:13px;font-weight:600;margin-bottom:6px;color:var(--accent)
+}
+</style>
+</head>
+
+<body>
+<div class="toggle" onclick="toggleMode()">🌙 / ☀️</div>
+<div class="container">
+
+<!-- HEADER -->
+<div class="card center">
+  <img src="logo-movara.png" class="logo">
+  <h2>MOVARA</h2>
+  <p>Gerak Cepat, Urusan Beres</p>
+  <span class="badge">Fast Response</span>
+</div>
+
+<!-- ORDER -->
+<div class="card">
+  <div class="section-title">Order Sekarang</div>
+
+  <input id="nama" placeholder="Nama Anda">
+
+  <select id="layanan" onchange="updateEstimasi()">
+    <option value="">Pilih Layanan</option>
+    <option>Antar Jemput</option>
+    <option>Beli Makanan</option>
+    <option>Antar Barang</option>
+    <option>Layanan Sesuai Permintaan</option>
+  </select>
+
+  <div id="estimasi" class="estimasi"></div>
+
+  <div id="box-deskripsi" class="deskripsi-box">
+    <div class="deskripsi-title">📝 Deskripsi Layanan</div>
+    <textarea id="deskripsi"
+      placeholder="Jelaskan layanan yang Anda butuhkan secara detail"></textarea>
+  </div>
+
+  <input id="lokasi" placeholder="Lokasi Jemput">
+  <input id="tujuan" placeholder="Tujuan">
+  <input id="waktu" placeholder="Waktu">
+  <textarea id="catatan" placeholder="Catatan tambahan (opsional)"></textarea>
+
+  <button onclick="kirimWA()">Kirim Order via WhatsApp</button>
+</div>
+
+<!-- CARA ORDER -->
+<div class="card">
+  <div class="section-title">Cara Order</div>
+  <ul>
+    <li>Isi form order</li>
+    <li>Admin konfirmasi harga</li>
+    <li>Order diproses</li>
+  </ul>
+</div>
+
+<!-- LAYANAN -->
+<div class="card">
+  <div class="section-title">Layanan Movara</div>
+  <ul>
+    <li>Antar Jemput</li>
+    <li>Beli Makanan</li>
+    <li>Antar Barang</li>
+    <li>Layanan Sesuai Permintaan (Aman & Legal)</li>
+  </ul>
+</div>
+
+<!-- ESTIMASI HARGA -->
+<div class="card">
+  <div class="section-title">Estimasi Harga</div>
+  <ul>
+    <li>Antar Jemput: mulai Rp10.000</li>
+    <li>Antar Barang: mulai Rp20.000</li>
+    <li>Beli Makanan: Rp10.000 + ongkir</li>
+  </ul>
+</div>
+
+<!-- SYARAT -->
+<div class="card">
+  <div class="section-title">Syarat & Ketentuan</div>
+  <ul>
+    <li>Harga menyesuaikan jarak & kondisi</li>
+    <li>Beli makanan pembayaran di awal</li>
+    <li>Layanan sesuai hukum yang berlaku</li>
+  </ul>
+</div>
+
+<div class="footer">
+  © Movara – Gerak Cepat, Urusan Beres
+</div>
+
+</div>
+
+<script>
+function toggleMode(){
+  document.body.classList.toggle("dark");
+}
+
+function updateEstimasi(){
+  const layananEl   = document.getElementById("layanan");
+  const estimasiEl  = document.getElementById("estimasi");
+  const boxEl       = document.getElementById("box-deskripsi");
+  const deskripsiEl = document.getElementById("deskripsi");
+
+  const layanan = layananEl.value;
+  let text = "";
+
+  estimasiEl.classList.remove("show");
+  boxEl.classList.remove("show");
+
+  if(layanan === "Antar Jemput"){
+    text = "Estimasi: Rp10.000 – Rp50.000";
+    deskripsiEl.value = "";
+  }
+  if(layanan === "Beli Makanan"){
+    text = "Estimasi: Rp15.000 + ongkir (bayar di awal)";
+    deskripsiEl.value = "";
+  }
+  if(layanan === "Antar Barang"){
+    text = "Estimasi: Rp20.000 – Rp150.000";
+    deskripsiEl.value = "";
+  }
+  if(layanan === "Layanan Sesuai Permintaan"){
+    text = "Estimasi menyesuaikan kebutuhan";
+    boxEl.classList.add("show");
+  }
+
+  if(text){
+    estimasiEl.innerText = text;
+    estimasiEl.classList.add("show");
+  } else {
+    estimasiEl.innerText = "";
+  }
+}
+
+function kirimWA(){
+  const nama      = document.getElementById("nama").value;
+  const layanan   = document.getElementById("layanan").value;
+  const lokasi    = document.getElementById("lokasi").value;
+  const tujuan    = document.getElementById("tujuan").value;
+  const waktu     = document.getElementById("waktu").value;
+  const catatan   = document.getElementById("catatan").value;
+  const deskripsi = document.getElementById("deskripsi").value;
+
+  if(!nama){
+    alert("Nama wajib diisi"); return;
+  }
+  if(layanan === "Layanan Sesuai Permintaan" && !deskripsi.trim()){
+    alert("Mohon jelaskan layanan yang dibutuhkan"); return;
+  }
+
+  const no = "6289526628983"; // ganti nomor admin
+
+  const msg = `🚀 *ORDER BARU – Hallo Admin *MOVARA* Saya Mau Order*
+
+👤 *Nama*
+${nama}
+
+🛎️ *Layanan*
+${layanan}
+
+📍 *Lokasi*
+${lokasi}
+
+🎯 *Tujuan*
+${tujuan}
+
+⏰ *Waktu*
+${waktu}
+
+📝 *Deskripsi Layanan*
+${deskripsi || "-"}
+
+📌 *Catatan*
+${catatan || "-"}`;
+
+  window.location.href =
+    "https://wa.me/" + no + "?text=" + encodeURIComponent(msg);
+}
+</script>
+
+</body>
+</html>
