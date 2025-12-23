@@ -8,27 +8,27 @@
 <style>
 :root{
   --bg:#f2f6f9; --card:#fff; --text:#1f2d3d; --sub:#6b7280;
-  --accent:#1e88e5; --accent2:#26c6da;
+  --accent:#1e88e5;
 }
 body.dark{
   --bg:#0f172a; --card:#1e293b; --text:#fff; --sub:#cbd5e1;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;font-family:Segoe UI,Arial,sans-serif;
+  margin:0;font-family:Segoe UI,Arial;
   background:var(--bg);color:var(--text);transition:.3s
 }
 .container{max-width:480px;margin:auto;padding:20px}
 .card{
   background:var(--card);border-radius:20px;padding:24px;
-  box-shadow:0 20px 45px rgba(0,0,0,.2);margin-bottom:20px
+  box-shadow:0 15px 35px rgba(0,0,0,.18);margin-bottom:20px
 }
 .center{text-align:center}
-.logo{width:80px;height:80px;border-radius:50%;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.logo{width:80px;border-radius:50%}
 .badge{
   display:inline-block;margin-top:6px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#fff;padding:5px 14px;border-radius:20px;font-size:12px
+  background:var(--accent);color:#fff;
+  padding:6px 14px;border-radius:20px;font-size:12px
 }
 input,select,textarea{
   width:100%;padding:14px;margin-top:12px;
@@ -38,7 +38,7 @@ textarea{resize:none;height:90px}
 button{
   width:100%;margin-top:18px;padding:16px;
   border:none;border-radius:16px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  background:var(--accent);
   color:#fff;font-size:16px;font-weight:bold;cursor:pointer
 }
 .section-title{font-weight:bold;margin-bottom:8px}
@@ -50,191 +50,66 @@ li{margin-bottom:6px;font-size:14px}
 /* Estimasi */
 .estimasi{
   margin-top:10px;font-weight:bold;color:var(--accent);
-  opacity:0;transform:translateY(6px);transition:.3s
+  display:none
 }
-.estimasi.show{opacity:1;transform:translateY(0)}
 
 /* Deskripsi */
 .deskripsi-box{
   margin-top:12px;padding:14px;border-radius:14px;
   background:rgba(30,136,229,.06);
   border:1.5px dashed var(--accent);
-  opacity:0;transform:translateY(-6px);
-  max-height:0;overflow:hidden;transition:.35s
-}
-.deskripsi-box.show{
-  opacity:1;transform:translateY(0);max-height:220px
-}
-.deskripsi-title{
-  font-size:13px;font-weight:600;margin-bottom:6px;color:var(--accent)
+  display:none
 }
 
-/* Popup Tengah */
+/* Popup */
 .popup-area{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  display:none;align-items:center;justify-content:center;z-index:9999
 }
 .popup-area.show{display:flex}
 .popup-box{
-  width:90%;
-  max-width:340px;
-  padding:24px;
-  border-radius:20px;
-  text-align:center;
-  animation:zoom .35s ease;
-  background:#ffffff;
-  color:#1f2d3d;
+  background:#fff;padding:22px;border-radius:18px;
+  max-width:320px;text-align:center
 }
-body.dark .popup-box{
-  background:#1e293b;
-  color:#ffffff;
-}
-.popup-box p{font-size:14px;color:#6b7280}
-body.dark .popup-box p{color:#cbd5e1}
-.popup-box small{display:block;margin-top:12px;font-size:12px;opacity:.7}
-@keyframes zoom{
-  from{transform:scale(.9);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-  
-  /* ===== TOMBOL CS TELEGRAM MINIMAL ===== */
+body.dark .popup-box{background:#1e293b;color:#fff}
+
+/* Chat CS Telegram */
 .chat-cs{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  z-index:9998;
+  position:fixed;bottom:20px;right:20px;z-index:9998
 }
-
 .chat-cs a{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#229ED9;
+  display:flex;align-items:center;justify-content:center;
+  width:56px;height:56px;border-radius:50%;
+  background:#229ED9;text-decoration:none;
   box-shadow:0 10px 25px rgba(34,158,217,.45);
-  transition:.3s ease;
-  overflow:hidden;
-  text-decoration:none;
+  overflow:hidden;transition:.3s
 }
-
-.chat-cs img{
-  width:26px;
-  height:26px;
-}
-
+.chat-cs img{width:26px}
 .chat-cs span{
-  color:#fff;
-  font-weight:600;
-  font-size:14px;
-  margin-left:10px;
-  white-space:nowrap;
-  opacity:0;
-  transition:.25s;
+  color:#fff;font-weight:600;margin-left:10px;
+  white-space:nowrap;opacity:0
 }
-
-/* saat hover / tap */
 .chat-cs a:hover{
-  width:190px;
-  border-radius:50px;
-  justify-content:flex-start;
-  padding-left:18px;
+  width:190px;border-radius:50px;justify-content:flex-start;padding-left:18px
 }
-
-.chat-cs a:hover span{
-  opacity:1;
-}
-  
+.chat-cs a:hover span{opacity:1}
 </style>
 </head>
 
-<div class="chat-cs">
-  <a href="https://t.me/CS_MOVARA" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-    <span>Hubungi CS Kami</span>
-  </a>
-</div>
-
 <body>
-<div class="toggle" onclick="toggleMode()">🌙 / ☀️</div>
+<div class="toggle" onclick="document.body.classList.toggle('dark')">🌙 / ☀️</div>
 
-<script>
-function toggleMode(){
-  document.body.classList.toggle("dark");
-}
-
-/* ===== POPUP CERDAS MOVARA ===== */
-function tampilkanPopupCerdas(){
-  const today = new Date().toISOString().slice(0,10);
-  const lastShown = localStorage.getItem("movara_popup_date");
-
-  // 1x per hari
-  if(lastShown === today) return;
-
-  const popup = document.getElementById("popupArea");
-  const text  = document.getElementById("popupText");
-
-  const pernahDatang = localStorage.getItem("movara_visited");
-  const jam = new Date().getHours();
-
-  // USER BARU → POPUP NETRAL
-  if(!pernahDatang){
-    text.innerHTML = `
-      Movara saat ini melayani<br>
-      <b>wilayah Cibinong & sekitarnya</b>.<br><br>
-      Order dari luar area akan dikonfirmasi admin 🙏
-    `;
-    localStorage.setItem("movara_visited","yes");
-  }
-
-  // USER LAMA → OPSI 1 (BERDASARKAN WAKTU)
-  else{
-    if(jam >= 5 && jam < 11){
-      text.innerHTML = `
-        Selamat pagi 👋<br><br>
-        Movara siap bantu antar, jemput, atau titip kebutuhan kamu hari ini.<br>
-        <b>Cibinong & sekitarnya</b>
-      `;
-    }
-    else if(jam >= 11 && jam < 17){
-      text.innerHTML = `
-        Lagi sibuk? Tenang 😄<br><br>
-        Movara siap bantu urusan kamu biar cepat beres.<br>
-        <b>Layanan lokal Cibinong</b>
-      `;
-    }
-    else{
-      text.innerHTML = `
-        Masih butuh bantuan malam ini? 🌙<br><br>
-        Selama aman & legal, Movara siap bantu.<br>
-        <b>Cibinong & sekitarnya</b>
-      `;
-    }
-  }
-
-  popup.classList.add("show");
-  localStorage.setItem("movara_popup_date", today);
-}
-
-function tutupPopup(){
-  document.getElementById("popupArea").classList.remove("show");
-}
-
-/* jalankan setelah halaman siap */
-window.addEventListener("load",()=>{
-  setTimeout(tampilkanPopupCerdas, 800);
-});
-</script>
+<!-- POPUP -->
+<div class="popup-area" id="popupArea" onclick="this.classList.remove('show')">
+  <div class="popup-box">
+    <h3>📍 Area Layanan</h3>
+    <p id="popupText">Movara melayani wilayah <b>Cibinong & sekitarnya</b></p>
+    <small>Klik untuk menutup</small>
+  </div>
+</div>
 
 <div class="container">
 
-<!-- HEADER -->
 <div class="card center">
   <img src="logo-movara.png" class="logo">
   <h2>MOVARA</h2>
@@ -242,13 +117,12 @@ window.addEventListener("load",()=>{
   <span class="badge">Cibinong & Sekitarnya</span>
 </div>
 
-<!-- ORDER -->
 <div class="card">
   <div class="section-title">Order Sekarang</div>
 
   <input id="nama" placeholder="Nama Anda">
 
-  <select id="layanan" onchange="updateEstimasi()">
+  <select id="layanan" onchange="updateLayanan()">
     <option value="">Pilih Layanan</option>
     <option>Antar Jemput</option>
     <option>Beli Makanan</option>
@@ -258,32 +132,29 @@ window.addEventListener("load",()=>{
 
   <div id="estimasi" class="estimasi"></div>
 
-  <div id="box-deskripsi" class="deskripsi-box">
-    <div class="deskripsi-title">📝 Deskripsi Layanan</div>
-    <textarea id="deskripsi" placeholder="Ceritakan kebutuhan kamu secara singkat"></textarea>
+  <div id="deskripsiBox" class="deskripsi-box">
+    <textarea id="deskripsi" placeholder="Jelaskan kebutuhan Anda"></textarea>
   </div>
 
   <input id="lokasi" placeholder="Lokasi">
   <input id="tujuan" placeholder="Tujuan">
-  <input id="waktu" placeholder="Waktu">
-  <textarea id="catatan" placeholder="Catatan tambahan (opsional)"></textarea>
+
+  <input id="promo" placeholder="Kode Promo (opsional)">
+  <div id="promoInfo" style="font-size:13px;margin-top:6px"></div>
+
+  <textarea id="catatan" placeholder="Catatan tambahan"></textarea>
 
   <button onclick="kirimWA()">Kirim Order</button>
 </div>
-  
-  <p style="font-size:13px;color:var(--sub);margin-top:12px;text-align:center">
-  🕘 Jam Operasional: <b>08.00 – 18.00 WIB</b><br>
-  Order di luar jam akan dibalas saat jam operasional ya 🙏
-</p>
 
 <!-- CARA ORDER -->
 <div class="card">
   <div class="section-title">Cara Order</div>
   <ul>
-    <li>Isi form order di website Movara</li>
-    <li>Admin akan menghubungi kamu via WhatsApp</li>
-    <li>Konfirmasi detail & estimasi harga</li>
-    <li>Kalau sudah oke, driver langsung jalan 🚀</li>
+    <li>Isi form order di website</li>
+    <li>Admin menghubungi via WhatsApp</li>
+    <li>Konfirmasi harga & detail</li>
+    <li>Driver langsung jalan 🚀</li>
   </ul>
 </div>
 
@@ -291,14 +162,14 @@ window.addEventListener("load",()=>{
 <div class="card">
   <div class="section-title">Layanan Movara</div>
   <ul>
-    <li>🚕 Antar jemput orang</li>
+    <li>🚕 Antar jemput</li>
     <li>🍔 Beli & antar makanan</li>
     <li>📦 Antar barang</li>
-    <li>🛠️ Layanan sesuai kebutuhan (aman & legal)</li>
+    <li>🛠️ Permintaan khusus (aman & legal)</li>
   </ul>
 </div>
 
-<!-- ESTIMASI HARGA -->
+<!-- ESTIMASI -->
 <div class="card">
   <div class="section-title">Estimasi Harga</div>
   <ul>
@@ -306,122 +177,115 @@ window.addEventListener("load",()=>{
     <li>Beli makanan: mulai Rp15.000 + ongkir</li>
     <li>Antar barang: mulai Rp20.000</li>
   </ul>
-  <p style="font-size:13px;color:var(--sub);margin-top:10px">
-    *Harga di atas hanya estimasi.  
-    Bisa lebih rendah atau lebih tinggi tergantung jarak, waktu, dan kondisi lapangan.*
+  <p style="font-size:13px;color:var(--sub)">
+    *Harga hanya estimasi, bisa lebih rendah atau lebih tinggi tergantung jarak,
+    waktu, dan kondisi.*
   </p>
 </div>
 
-  <div class="card">
-  <div class="section-title">Catatan Pembayaran</div>
-  <ul>
-    <li>💳 Untuk <b>Beli Makanan</b>, pembayaran dilakukan di awal</li>
-    <li>Metode pembayaran bisa transfer atau QRIS (sesuai kesepakatan)</li>
-    <li>Tujuannya agar order lebih aman & lancar 🙏</li>
-  </ul>
-</div>
-  
-<!-- SYARAT -->
+<!-- S&K -->
 <div class="card">
   <div class="section-title">Syarat & Ketentuan</div>
   <ul>
-    <li>Layanan tersedia untuk wilayah Cibinong & sekitarnya</li>
-    <li>Harga menyesuaikan jarak & kondisi order</li>
-    <li>Untuk beli makanan, pembayaran dilakukan di awal</li>
-    <li>Mohon pastikan order aman & tidak melanggar hukum</li>
-    <li>Admin berhak menolak order tertentu</li>
+    <li>Layanan khusus wilayah Cibinong & sekitarnya</li>
+    <li>Harga menyesuaikan kondisi</li>
+    <li>Beli makanan dibayar di awal</li>
+    <li>Order harus aman & legal</li>
+    <li>Admin berhak menolak order</li>
   </ul>
 </div>
 
-<div class="footer">
-  © Movara – Gerak Cepat, Urusan Beres
+<div class="footer">© Movara</div>
 </div>
 
+<!-- CHAT CS -->
+<div class="chat-cs">
+  <a href="https://t.me/USERNAME_CS_MOVARA" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg">
+    <span>Hubungi CS Kami</span>
+  </a>
 </div>
 
 <script>
-function toggleMode(){
-  document.body.classList.toggle("dark");
-}
+/* POPUP */
+(function(){
+  const v=localStorage.getItem("movara_popup_version")||"v1";
+  if(!localStorage.getItem("seen_"+v)){
+    popupArea.classList.add("show");
+    localStorage.setItem("seen_"+v,"1");
+  }
+})();
 
-function updateEstimasi(){
-  const layanan=document.getElementById("layanan").value;
-  const estimasi=document.getElementById("estimasi");
-  const box=document.getElementById("box-deskripsi");
-  const lokasi=document.getElementById("lokasi");
-  const tujuan=document.getElementById("tujuan");
+/* PROMO 1X PER USER */
+let promoValue=0;
+promo.addEventListener("input",()=>{
+  const code=promo.value.trim().toUpperCase();
+  const saved=localStorage.getItem("movara_promo_code");
+  const val=parseInt(localStorage.getItem("movara_promo_value"))||0;
+  const used=localStorage.getItem("promo_used_"+code);
 
-  estimasi.classList.remove("show");
-  box.classList.remove("show");
+  if(code===saved && !used){
+    promoValue=val;
+    promoInfo.innerHTML=`🎉 Promo aktif: -Rp${val.toLocaleString()}`;
+    promoInfo.style.color="green";
+  }else{
+    promoValue=0;
+    promoInfo.innerHTML="";
+  }
+});
+
+/* LAYANAN */
+function updateLayanan(){
+  estimasi.style.display="block";
+  deskripsiBox.style.display="none";
   tujuan.style.display="block";
 
-  let text="";
-
-  if(layanan==="Antar Jemput"){
+  if(layanan.value==="Antar Jemput"){
     lokasi.placeholder="Lokasi Jemput";
     tujuan.placeholder="Tujuan";
-    text="Estimasi: Rp10.000 – Rp50.000";
+    estimasi.innerText="Estimasi: Rp10.000 – Rp50.000";
   }
-  if(layanan==="Beli Makanan"){
+  if(layanan.value==="Beli Makanan"){
     lokasi.placeholder="Lokasi Resto";
     tujuan.placeholder="Alamat Tujuan";
-    text="Estimasi: Rp15.000 + ongkir";
+    estimasi.innerText="Estimasi: Rp15.000 + ongkir";
   }
-  if(layanan==="Antar Barang"){
+  if(layanan.value==="Antar Barang"){
     lokasi.placeholder="Lokasi Jemput Barang";
     tujuan.placeholder="Alamat Tujuan";
-    text="Estimasi: Rp20.000 – Rp150.000";
+    estimasi.innerText="Estimasi: Rp20.000 – Rp150.000";
   }
-  if(layanan==="Layanan Sesuai Permintaan"){
-    lokasi.placeholder="Lokasi";
+  if(layanan.value==="Layanan Sesuai Permintaan"){
     tujuan.style.display="none";
-    text="Estimasi menyesuaikan kebutuhan";
-    box.classList.add("show");
-  }
-
-  if(text){
-    estimasi.innerText=text;
-    estimasi.classList.add("show");
+    estimasi.innerText="Estimasi menyesuaikan kebutuhan";
+    deskripsiBox.style.display="block";
   }
 }
 
+/* ORDER */
 function kirimWA(){
-  const nama=document.getElementById("nama").value;
-  const layanan=document.getElementById("layanan").value;
-  const lokasi=document.getElementById("lokasi").value;
-  const tujuan=document.getElementById("tujuan").value;
-  const waktu=document.getElementById("waktu").value;
-  const catatan=document.getElementById("catatan").value;
-  const deskripsi=document.getElementById("deskripsi").value;
-
-  if(!nama||!layanan||!lokasi){alert("Lengkapi data wajib dulu ya 😊");return;}
-  if(layanan!=="Layanan Sesuai Permintaan" && !tujuan){
-    alert("Tujuan masih kosong");return;
+  if(!nama.value||!layanan.value||!lokasi.value){
+    alert("Lengkapi data wajib");return;
+  }
+  if(layanan.value!=="Layanan Sesuai Permintaan"&&!tujuan.value){
+    alert("Tujuan wajib diisi");return;
   }
 
-  const msg=`🚀 ORDER BARU – MOVARA
+  if(promoValue>0){
+    localStorage.setItem("promo_used_"+promo.value.toUpperCase(),"1");
+  }
 
-Nama: ${nama}
-Layanan: ${layanan}
-Lokasi: ${lokasi}
-Tujuan: ${tujuan||"-"}
-Waktu: ${waktu||"-"}
-Deskripsi: ${deskripsi||"-"}
-Catatan: ${catatan||"-"}`;
+  const msg=`ORDER MOVARA
+Nama: ${nama.value}
+Layanan: ${layanan.value}
+Lokasi: ${lokasi.value}
+Tujuan: ${tujuan.value||"-"}
+Promo: ${promo.value||"-"}
+Potongan: Rp${promoValue.toLocaleString()}
+Catatan: ${catatan.value||"-"}`;
 
-  window.location.href="https://wa.me/6289526628983?text="+encodeURIComponent(msg);
+  location.href="https://wa.me/6289526628983?text="+encodeURIComponent(msg);
 }
-
-function tampilkanPopup(){
-  document.getElementById("popupArea").classList.add("show");
-}
-function tutupPopup(){
-  document.getElementById("popupArea").classList.remove("show");
-}
-
-window.addEventListener("load",()=>{
-  setTimeout(tampilkanPopup,700);
-});
 </script>
 
 </body>
