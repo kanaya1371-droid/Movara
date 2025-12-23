@@ -1,55 +1,143 @@
-<div class="card" id="login">
-  <h3>🔐 Admin Login</h3>
-  <input id="pin" placeholder="PIN">
-  <button onclick="login()">Masuk</button>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel – Movara</title>
+
+<style>
+body{
+  margin:0;
+  padding:20px;
+  font-family:Segoe UI,Arial,sans-serif;
+  background:#0f172a;
+  color:#ffffff;
+}
+.card{
+  background:#1e293b;
+  padding:20px;
+  border-radius:16px;
+  max-width:420px;
+  margin:40px auto;
+}
+h3{margin-top:0}
+input,textarea,button{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-top:10px;
+  font-size:14px;
+}
+textarea{height:100px}
+button{
+  background:#1e88e5;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+button.danger{
+  background:#e53935;
+}
+.hidden{display:none}
+small{opacity:.7}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="card" id="loginBox">
+  <h3>🔐 Login Admin Movara</h3>
+  <input type="password" id="pinInput" placeholder="Masukkan PIN Admin">
+  <button id="loginBtn">Masuk</button>
+  <small>Hanya untuk admin</small>
 </div>
 
-<div class="card hidden" id="panel">
-  <h3>⚙️ Admin Panel</h3>
+<!-- PANEL -->
+<div class="card hidden" id="panelBox">
+  <h3>⚙️ Admin Panel Movara</h3>
 
-  <textarea id="popupText"></textarea>
-  <button onclick="savePopup()">💾 Simpan Popup</button>
+  <label>Teks Popup</label>
+  <textarea id="popupText" placeholder="Isi teks popup..."></textarea>
+  <button id="savePopupBtn">💾 Simpan & Reset Popup</button>
 
-  <hr>
+  <hr style="margin:20px 0;opacity:.2">
 
-  <input id="promoCode" placeholder="Kode Promo">
-  <input id="promoValue" type="number" placeholder="Potongan (Rp)">
-  <button onclick="savePromo()">🎁 Simpan Promo</button>
+  <label>Kode Promo</label>
+  <input id="promoCode" placeholder="Contoh: MOVARA10">
+  <input id="promoValue" type="number" placeholder="Potongan (contoh: 10000)">
+  <button id="savePromoBtn">🎁 Simpan Promo</button>
 </div>
 
 <script>
-const PIN_ADMIN = "51183$*"; // GANTI PIN KAMU
+/* =========================
+   KONFIGURASI ADMIN
+========================= */
+const ADMIN_PIN = "51183$*"; // GANTI PIN INI
 
-const loginBox = document.getElementById("login");
-const panelBox = document.getElementById("panel");
-const pinInput = document.getElementById("pin");
-const popupText = document.getElementById("popupText");
-const promoCode = document.getElementById("promoCode");
+/* =========================
+   AMBIL ELEMEN
+========================= */
+const loginBox   = document.getElementById("loginBox");
+const panelBox   = document.getElementById("panelBox");
+const pinInput   = document.getElementById("pinInput");
+const loginBtn   = document.getElementById("loginBtn");
+
+const popupText  = document.getElementById("popupText");
+const savePopupBtn = document.getElementById("savePopupBtn");
+
+const promoCode  = document.getElementById("promoCode");
 const promoValue = document.getElementById("promoValue");
+const savePromoBtn = document.getElementById("savePromoBtn");
 
-function login(){
-  if(pinInput.value === PIN_ADMIN){
+/* =========================
+   LOGIN
+========================= */
+loginBtn.addEventListener("click", function(){
+  if(pinInput.value === ADMIN_PIN){
     loginBox.classList.add("hidden");
     panelBox.classList.remove("hidden");
-    popupText.value = localStorage.getItem("movara_popup_text") || "";
-  }else{
-    alert("PIN salah");
-  }
-}
 
-function savePopup(){
+    // load data
+    popupText.value = localStorage.getItem("movara_popup_text") || "";
+    promoCode.value = localStorage.getItem("movara_promo_code") || "";
+    promoValue.value = localStorage.getItem("movara_promo_value") || "";
+  }else{
+    alert("❌ PIN salah");
+  }
+});
+
+/* =========================
+   SIMPAN POPUP
+========================= */
+savePopupBtn.addEventListener("click", function(){
   localStorage.setItem("movara_popup_text", popupText.value);
   localStorage.setItem("movara_popup_version", Date.now());
-  alert("Popup berhasil diperbarui");
-}
+  alert("✅ Popup berhasil diperbarui & di-reset");
+});
 
-function savePromo(){
+/* =========================
+   SIMPAN PROMO
+========================= */
+savePromoBtn.addEventListener("click", function(){
   if(!promoCode.value || !promoValue.value){
-    alert("Lengkapi kode promo & potongan");
+    alert("⚠️ Kode promo dan potongan wajib diisi");
     return;
   }
-  localStorage.setItem("movara_promo_code", promoCode.value.toUpperCase());
-  localStorage.setItem("movara_promo_value", promoValue.value);
-  alert("Promo berhasil disimpan");
-}
-      </script>
+
+  localStorage.setItem(
+    "movara_promo_code",
+    promoCode.value.trim().toUpperCase()
+  );
+  localStorage.setItem(
+    "movara_promo_value",
+    promoValue.value
+  );
+
+  alert("🎉 Promo berhasil disimpan");
+});
+</script>
+
+</body>
+</html>
